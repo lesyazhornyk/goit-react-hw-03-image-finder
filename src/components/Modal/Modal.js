@@ -1,10 +1,10 @@
 import styles from './Modal.module.css';
 
-const Modal = ({image, tags}) => {
+const Modal = ({ image, onClose }) => {
   return (
-    <div className={styles.Overlay}>
+    <div className={styles.Overlay} onClick={onClose}>
       <div className={styles.Modal}>
-        <img src={image} alt={tags} />
+        <img src={image} alt="" />
       </div>
     </div>
   );

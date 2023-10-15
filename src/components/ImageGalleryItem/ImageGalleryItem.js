@@ -1,10 +1,8 @@
 import styles from './ImageGalleryItem.module.css';
-// import Modal from 'components/Modal/Modal';
 
-const ImageGalleryItem = ({ imageObject }) => {
+const ImageGalleryItem = ({ imageObject, onImageClick }) => {
   const { tags, webformatURL } = imageObject;
 
-  // <Modal image={webformatURL} tags={tags} />
   return (
     <li className={styles.ImageGalleryItem}>
       <img
@@ -12,7 +10,7 @@ const ImageGalleryItem = ({ imageObject }) => {
         alt={tags}
         className={styles.ImageGalleryItemImage}
         onClick={() => {
-          console.log('click', tags);
+          onImageClick(webformatURL);
         }}
       />
     </li>
