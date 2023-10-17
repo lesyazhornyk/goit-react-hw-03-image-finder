@@ -15,6 +15,7 @@ class App extends PureComponent {
     page: 1,
     query: '',
     modalImage: null,
+    isLastPage: false,
   };
 
   handleSearch = searchText => {
@@ -59,7 +60,7 @@ class App extends PureComponent {
         prevState.query !== this.state.query || this.state.page === 1;
 
       try {
-        const fetchedImages = await api.fetchImages(
+        const [totalImages, fetchedImages] = await api.fetchImages(
           this.state.page,
           this.state.query
         );
@@ -68,7 +69,8 @@ class App extends PureComponent {
           const images = showOnlyNew
             ? fetchedImages
             : [...prevState.images, ...fetchedImages];
-          return { images };
+          const isLastPage = totalImages <= images.length;
+          return { images, isLastPage };
         });
       } catch (error) {
         this.setState({ error });
@@ -79,7 +81,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const { images, loading, error, modalImage } = this.state;
+    const { images, loading, error, modalImage, isLastPage } = this.state;
     return (
       <div className={styles.App}>
         {error && <p>Whoops, something went wrong: {error.message}</p>}
@@ -88,7 +90,7 @@ class App extends PureComponent {
           <ImageGallery images={images} onImageClick={this.handleOpenModal} />
         )}
         <Loader isLoading={loading} />
-        {images.length > 0 && !loading && (
+        {images.length > 0 && !loading && !isLastPage && (
           <Button onClick={this.handleLoadMore} />
         )}
         {modalImage && (

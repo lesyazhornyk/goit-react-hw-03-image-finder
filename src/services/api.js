@@ -22,7 +22,7 @@ export const fetchImages = async (page, search) => {
   }
 
   const response = await axios.get(`${BASE_URL}?${params}`);
-  return response.data.hits;
+  return [response.data.totalHits, response.data.hits];
 };
 
 const api = {
